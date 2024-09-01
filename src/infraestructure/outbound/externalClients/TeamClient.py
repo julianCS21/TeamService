@@ -1,5 +1,6 @@
 import httpx
 from src.core.config import Settings
+from src.domain.exceptions.TeamBadRequestException import TeamBadRequestException
 from src.domain.exceptions.TeamException import  TeamException
 from src.domain.exceptions.TeamServerErrorException import  TeamServerErrorException
 from src.domain.exceptions.TeamNotFoundException import  TeamNotFoundException
@@ -35,8 +36,9 @@ class TeamClient:
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 404:
                 raise TeamNotFoundException()
+            elif e.response.status_code == 400:
+                raise TeamBadRequestException()
             else:
                 raise TeamServerErrorException()
         except Exception as e:
-
             raise TeamException(str(team_id)) from e

@@ -1,6 +1,9 @@
+from src.domain.exceptions.TeamBadRequestException import TeamBadRequestException
 from src.infraestructure.outbound.externalClients.TeamClient import TeamClient
-from src.domain.exceptions import TeamNotFoundException, TeamServerErrorException
+from src.domain.exceptions.TeamNotFoundException import TeamNotFoundException
+from src.domain.exceptions.TeamServerErrorException import TeamServerErrorException
 from src.domain.exceptions.TeamException import TeamException
+
 
 class TeamService:
 
@@ -25,6 +28,8 @@ class TeamService:
         except TeamNotFoundException as e:
             raise e
         except TeamServerErrorException as e:
+            raise e
+        except TeamBadRequestException as e:
             raise e
         except Exception as e:
             raise TeamException(team_id) from e
